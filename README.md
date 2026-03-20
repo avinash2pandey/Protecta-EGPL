@@ -1,6 +1,6 @@
 # 📱 Protecta iOS App
 
-A production-ready iOS application built using **Swift + WKWebView**, designed to replicate and enhance an Android WebView-based CRM app.
+A production-ready iOS application built using **Swift + WKWebView**, designed to replicate and enhance an WebView-based CRM app.
 
 This app supports advanced features such as:
 
