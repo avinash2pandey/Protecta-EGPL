@@ -14,11 +14,9 @@ class WebViewManager: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
     var webView: WKWebView!
     weak var viewController: UIViewController?
 
-    // MARK: - Create WebView
-
     func createWebView(in view: UIView) -> WKWebView {
 
-        // ✅ Allow cookies globally
+        // ✅ Allow cookies
         HTTPCookieStorage.shared.cookieAcceptPolicy = .always
 
         let contentController = WKUserContentController()
@@ -27,32 +25,34 @@ class WebViewManager: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
 
-        // ✅ Persistent storage (VERY IMPORTANT)
+        // ✅ Persistent storage
         config.websiteDataStore = WKWebsiteDataStore.default()
 
         webView = WKWebView(frame: view.bounds, configuration: config)
 
-        // ✅ Custom user agent
         webView.customUserAgent = "Protecta-iOS-App"
-
         webView.navigationDelegate = self
+
         view.addSubview(webView)
 
         return webView
     }
 
-    // MARK: - Load URL with Cookies
+    // MARK: - Load URL
 
     func loadURL(_ urlString: String) {
 
         guard let url = URL(string: urlString) else { return }
 
-        // ✅ Sync cookies BEFORE request
+        // 🔥 STEP 1: Restore cookies from UserDefaults
+        restoreCookies()
+
+        // 🔥 STEP 2: Sync to WKWebView
         syncCookiesToWebView()
 
         var request = URLRequest(url: url)
 
-        // ✅ Attach cookies manually (extra safety)
+        // 🔥 STEP 3: Attach cookies manually
         if let cookies = HTTPCookieStorage.shared.cookies {
             let headers = HTTPCookie.requestHeaderFields(with: cookies)
             request.allHTTPHeaderFields = headers
@@ -77,12 +77,61 @@ class WebViewManager: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
     func saveCookies() {
 
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+
             for cookie in cookies {
                 HTTPCookieStorage.shared.setCookie(cookie)
             }
 
-            print("✅ Cookies Saved:", cookies)
+            print("✅ Cookies saved to HTTPCookieStorage")
+
+            // 🔥 Persist also
+            self.persistCookies()
         }
+    }
+
+    // MARK: - UserDefaults Persistence
+
+    func persistCookies() {
+
+        var cookieArray: [[HTTPCookiePropertyKey: Any]] = []
+
+        let cookies = HTTPCookieStorage.shared.cookies ?? []
+
+        for cookie in cookies {
+
+            if let properties = cookie.properties {
+
+                // Optional: skip expired cookies
+                if let expires = properties[.expires] as? Date,
+                   expires < Date() {
+                    continue
+                }
+
+                cookieArray.append(properties)
+            }
+        }
+
+        UserDefaults.standard.set(cookieArray, forKey: "Protecta_SavedCookies")
+
+        print("💾 Cookies persisted in UserDefaults")
+    }
+
+    func restoreCookies() {
+
+        guard let cookieArray =
+                UserDefaults.standard.array(forKey: "Protecta_SavedCookies")
+                as? [[HTTPCookiePropertyKey: Any]] else {
+            return
+        }
+
+        for properties in cookieArray {
+
+            if let cookie = HTTPCookie(properties: properties) {
+                HTTPCookieStorage.shared.setCookie(cookie)
+            }
+        }
+
+        print("🔁 Cookies restored from UserDefaults")
     }
 
     // MARK: - Navigation Delegate
