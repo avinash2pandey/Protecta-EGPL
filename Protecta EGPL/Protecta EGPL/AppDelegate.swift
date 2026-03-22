@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                          didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 
             let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-            UserDefaults.standard.set(token, forKey: "fcmToken")
+            UserDefaults.standard.set(token, forKey: "Protecta_fcmToken")
 
             //WebService().sendTokenToServer(token: token)
         }
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let userInfo = response.notification.request.content.userInfo
 
             if let url = userInfo["url"] as? String {
-                //NotificationCenter.default.post(name: .openDeepLink, object: url)
+                NotificationCenter.default.post(name: .openDeepLink, object: url)
             }
 
             completionHandler()
