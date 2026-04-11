@@ -148,6 +148,24 @@ class WebViewManager: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
         let urlString = url.absoluteString.lowercased()
         print("🌐 Loading URL:", urlString)
 
+        // 🔥 Razorpay / UPI
+        if urlString.starts(with: "upi://") ||
+           urlString.contains("intent://") {
+
+            openUPIChooser(url: url)
+            decisionHandler(.cancel)
+            return
+        }
+        
+        // ✅ Razorpay fallback (important)
+           if urlString.contains("razorpay") &&
+              (urlString.contains("pay") || urlString.contains("checkout")) {
+
+               // Let WebView load normally
+               decisionHandler(.allow)
+               return
+           }
+        
         // 🔥 1. Handle Documents (PDF / Images)
         if isDocument(urlString) {
             openDocumentViewer(url: url)
@@ -224,6 +242,63 @@ class WebViewManager: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
         }
     }
 
+    // MARK: - UPI Chooser
+
+    func openUPIChooser(url: URL) {
+
+        guard let vc = viewController else { return }
+
+        let alert = UIAlertController(title: "Pay using UPI",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+
+        let apps: [(String, String)] = [
+            ("Google Pay", "gpay://"),
+            ("PhonePe", "phonepe://"),
+            ("Paytm", "paytm://"),
+            ("BHIM", "bhim://"),
+            ("Amazon Pay", "amazonpay://"),
+            ("Cred", "credpay://"),
+            ("Freecharge", "freecharge://"),
+            ("Mobikwik", "mobikwik://"),
+            ("Airtel Thanks", "airtel://"),
+            ("WhatsApp Pay", "whatsapp://")
+        ]
+
+        for app in apps {
+
+            if let schemeURL = URL(string: app.1),
+               UIApplication.shared.canOpenURL(schemeURL) {
+
+                alert.addAction(UIAlertAction(title: app.0, style: .default) { _ in
+                    UIApplication.shared.open(url)
+                })
+            }
+        }
+
+        // Fallback
+        alert.addAction(UIAlertAction(title: "Other Apps / Browser", style: .default) { _ in
+            UIApplication.shared.open(url)
+        })
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        // iPad fix
+        if let popover = alert.popoverPresentationController {
+            popover.sourceView = vc.view
+            popover.sourceRect = CGRect(
+                x: vc.view.bounds.midX,
+                y: vc.view.bounds.midY,
+                width: 0,
+                height: 0
+            )
+            popover.permittedArrowDirections = []
+        }
+
+        vc.present(alert, animated: true)
+    }
+
+    
     // MARK: - Helpers
 
     private func isDocument(_ url: String) -> Bool {

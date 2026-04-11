@@ -46,6 +46,12 @@ class WebViewController: UIViewController {
             selector: #selector(openFileChooser),
             name: .openCamera,
             object: nil)
+        
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(handlePaymentCallback),
+                    name: .paymentCallback,
+                    object: nil)
     }
 
     // MARK: - Deep Link Handling
@@ -59,6 +65,18 @@ class WebViewController: UIViewController {
         // ✅ Use manager (IMPORTANT for cookies/session)
         manager.loadURL(urlString)
     }
+
+    // MARK: - Payment Callback
+
+        @objc func handlePaymentCallback(_ notification: Notification) {
+
+            guard let url = notification.object as? URL else { return }
+
+            print("✅ Payment Result:", url.absoluteString)
+
+            // 🔥 Reload CRM or redirect page
+            manager.loadURL(Constants.baseURL)
+        }
 
     // MARK: - File Upload
 

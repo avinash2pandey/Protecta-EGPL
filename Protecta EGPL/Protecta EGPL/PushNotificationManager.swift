@@ -10,4 +10,5 @@ import Foundation
 extension Notification.Name {
     static let openDeepLink = Notification.Name("openDeepLink")
     static let openCamera = Notification.Name("openCamera")
+    static let paymentCallback = Notification.Name("paymentCallback")
 }

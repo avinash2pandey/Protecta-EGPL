@@ -24,5 +24,19 @@
 			</array>
 		</dict>
 	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>upi</string>
+		<string>gpay</string>
+		<string>phonepe</string>
+		<string>paytm</string>
+		<string>bhim</string>
+		<string>amazonpay</string>
+		<string>credpay</string>
+		<string>freecharge</string>
+		<string>mobikwik</string>
+		<string>airtel</string>
+		<string>whatsapp</string>
+	</array>
 </dict>
 </plist>

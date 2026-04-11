@@ -24,8 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               window.rootViewController = WebViewController()
               self.window = window
               window.makeKeyAndVisible()
+        
+        // ✅ Handle cold start deep link (if app opened from URL)
+        if let urlContext = connectionOptions.urlContexts.first {
+            handleIncomingURL(urlContext.url)
+        }
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
@@ -54,6 +59,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    // MARK: - Handle URL (UPI / Razorpay / Deep Link)
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+
+        guard let context = URLContexts.first else { return }
+
+        handleIncomingURL(context.url)
+    }
+
+    // MARK: - Common URL Handler
+
+    private func handleIncomingURL(_ url: URL) {
+
+        let urlString = url.absoluteString
+        print("🔗 Incoming URL:", urlString)
+
+        // 🔥 Detect payment callback
+        if urlString.contains("razorpay") ||
+           urlString.contains("payment") ||
+           urlString.contains("success") ||
+           urlString.contains("failure") {
+
+            NotificationCenter.default.post(
+                name: .paymentCallback,
+                object: url
+            )
+        } else {
+            // Normal deep link
+            NotificationCenter.default.post(
+                name: .openDeepLink,
+                object: urlString
+            )
+        }
+    }
 
 }
-
