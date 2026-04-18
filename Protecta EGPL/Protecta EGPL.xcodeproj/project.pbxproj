@@ -287,18 +287,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M454L8MZF7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Protecta EGPL/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Protecta EGPL";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = " $(PRODUCT_NAME) want to use camera for product service picture.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = " $(PRODUCT_NAME) want to use user location.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = " $(PRODUCT_NAME) want to use Photo access for product service picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = " Protecta EGPL want to use camera for product service picture.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = " Protecta EGPL want to use user location.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = " Protecta EGPL want to use Photo access for product service picture.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -311,7 +311,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.protectaclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Protecta_appstore;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Protecta_dev;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -331,18 +331,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M454L8MZF7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Protecta EGPL/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Protecta EGPL";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = " $(PRODUCT_NAME) want to use camera for product service picture.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = " $(PRODUCT_NAME) want to use user location.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = " $(PRODUCT_NAME) want to use Photo access for product service picture.";
+				INFOPLIST_KEY_NSCameraUsageDescription = " Protecta EGPL want to use camera for product service picture.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = " Protecta EGPL want to use user location.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = " Protecta EGPL want to use Photo access for product service picture.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -355,7 +355,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.protectaclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Protecta_appstore;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Protecta_dev;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
